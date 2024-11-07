@@ -122,10 +122,32 @@ const getItems = async (req, res = response) => {
     }
 }
 
+const getItems3 = async (req, res = response) => {
+
+    try {
+
+        const items = await Items.findAll({ order: [['item_id', 'DESC']], limit: 3})
+        if(items.length < 1){
+            return res.status(404).json({
+                msg: "No se han encontrado Items."
+            })
+        }
+        return res.status(200).json({
+            items
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            msg: "Ha ocurrido un error."
+        })   
+    }
+}
+
 module.exports = {
     createItem,
     editItem,
     deleteItem,
     getItem,
-    getItems
+    getItems,
+    getItems3
 }
